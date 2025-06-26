@@ -3,7 +3,6 @@ import app_info from "../models/app_info.model.js";
 export const set_app_info = async (req, res) => {
   try {
     const { title, description, company } = req.body;
-    console.log("111-----body ka data ", title, description, company);
     const image = req.file?.path || "";
 
     const updatedApp = await app_info.findOneAndUpdate(

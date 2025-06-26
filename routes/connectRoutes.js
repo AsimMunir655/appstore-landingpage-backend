@@ -6,6 +6,7 @@ import screenShotsRouter from "./screenshots.routes.js";
 import toggleRoutes from "./toggle_status.routes.js";
 import versionRouter from "./version_history.routes.js";
 import reviewRouter from "./rating.reviews.routes.js";
+import eventsRouter from "./events.routes.js";
 
 const connectRoutes = (app) => {
   app.use("/api/auth", router);
@@ -16,6 +17,7 @@ const connectRoutes = (app) => {
   app.use("/api/description", app_descriptionRouter);
   app.use("/api/verison", versionRouter);
   app.use("/api/reviews", reviewRouter);
+  app.use("/api/events", eventsRouter);
 };
 
 export default connectRoutes;

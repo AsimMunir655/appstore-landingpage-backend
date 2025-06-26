@@ -1,5 +1,7 @@
 import App_Description from "../models/app_description.model.js";
 import app_info from "../models/app_info.model.js";
+import Events_Group from "../models/events.model.js";
+import events_toggle from "../models/events.toggle.model.js";
 import reviews from "../models/review.model.js";
 import screen_shot from "../models/screenshots.model.js";
 import toggle_status_head from "../models/toggle_status.model.js";
@@ -13,6 +15,9 @@ export const get_All_Data_Web = async (req, res) => {
   const toggleStatus = await toggle_status_head.find({});
   const app_description = await App_Description.find({});
   const version_history = await version_History.find().sort({ date: -1 });
+  const statusDoc = await events_toggle.findOne();
+  const eventsData = await Events_Group.find({}, { events: 1, _id: 0 }); // only return `events` field
+  const eventsOnly = eventsData[0].events;
 
   if (
     !usersData ||
@@ -20,7 +25,8 @@ export const get_All_Data_Web = async (req, res) => {
     !app_infoData ||
     !toggleStatus ||
     !app_description ||
-    !version_history
+    !version_history ||
+    !statusDoc
   ) {
     return res.status(400).json({
       success: false,
@@ -67,8 +73,6 @@ export const get_All_Data_Web = async (req, res) => {
     ratingDistribution[item._id] = item.count;
   });
 
-  ////////////////////////////////
-
   try {
     return res.status(200).json({
       success: true,
@@ -83,6 +87,8 @@ export const get_All_Data_Web = async (req, res) => {
       averageRating: Number(averageRating.toFixed(1)),
       ratingDistribution,
       reviews: findReviews,
+      eventsToggle: statusDoc,
+      eventsOnly,
     });
   } catch (error) {
     console.error(error);

@@ -24,6 +24,7 @@ const uploadMultiple = multer({ storage }).fields([
   { name: "i_phone", maxCount: 10 },
   { name: "i_pad", maxCount: 10 },
   { name: "apple_watch", maxCount: 10 },
+  { name: "events_image", maxCount: 3 },
 ]);
 
 export default uploadMultiple;
